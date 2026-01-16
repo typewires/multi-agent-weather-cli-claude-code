@@ -2,7 +2,7 @@
 
 ## Built with Claude Code + Opus 4.5
 
-A weather CLI built by coordinating multiple AI agents through a shared task queue — demonstrating the **Planner/Worker/Judge** pattern from [Cursor's research on scaling autonomous coding](https://cursor.com/blog/agents).
+A weather CLI built by coordinating multiple AI agents through a shared task queue — demonstrating the **Planner/Worker/Judge** pattern from [Cursor's research on scaling autonomous coding](https://cursor.com/blog/scaling-agents).
 
 Instead of one AI writing all the code, this project uses three types of agents working together: a **Planner** that breaks down the goal into tasks, **Workers** that complete one task each (and can run in parallel), and a **Judge** that verifies functionality. All agents are powered by Claude Opus 4.5 running in Claude Code.
 
@@ -53,7 +53,7 @@ This project was built by **multiple AI agents** working together, not one AI do
        │ api.py  │       │display.py│      │weather.py│
        └─────────┘       └─────────┘       └─────────┘
              (All workers use Claude Opus 4.5)
-             (Can run in PARALLEL in separate terminals!)
+             (Can run in PARALLEL in separate terminals)
                               │
                               ▼
                      ┌────────────────┐
@@ -63,7 +63,7 @@ This project was built by **multiple AI agents** working together, not one AI do
                      └────────────────┘
                               │
                               ▼
-                     Working CLI!
+                     Working CLI
 ```
 
 ---

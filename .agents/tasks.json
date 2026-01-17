@@ -12,42 +12,42 @@
       "id": "task-002",
       "title": "Weather fetching module",
       "description": "Create weather.py with a function get_weather(latitude, longitude) that calls the Open-Meteo weather API (https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true). Returns a dict with 'temperature' (Celsius), 'windspeed' (m/s), and 'weathercode'. Uses requests library.",
-      "status": "pending",
+      "status": "completed",
       "files": ["weather.py"]
     },
     {
       "id": "task-003",
       "title": "Temperature conversion",
       "description": "Create temperature.py with a function celsius_to_fahrenheit(celsius) that converts Celsius to Fahrenheit. Formula: (celsius * 9/5) + 32. Returns float rounded to 1 decimal place.",
-      "status": "pending",
+      "status": "completed",
       "files": ["temperature.py"]
     },
     {
       "id": "task-004",
       "title": "Wind speed conversion",
       "description": "Create wind.py with a function ms_to_mph(meters_per_second) that converts m/s to mph. Formula: meters_per_second * 2.237. Returns float rounded to 1 decimal place.",
-      "status": "pending",
+      "status": "completed",
       "files": ["wind.py"]
     },
     {
       "id": "task-005",
       "title": "Weather code descriptions",
       "description": "Create weather_codes.py with a function get_weather_description(code) that maps WMO weather codes to human-readable descriptions. Include codes: 0=Clear sky, 1-3=Partly cloudy, 45-48=Fog, 51-55=Drizzle, 61-65=Rain, 71-75=Snow, 80-82=Rain showers, 95-99=Thunderstorm. Return 'Unknown' for unmapped codes.",
-      "status": "pending",
+      "status": "completed",
       "files": ["weather_codes.py"]
     },
     {
       "id": "task-006",
       "title": "Display formatting",
       "description": "Create display.py with a function format_weather(city_name, temp_c, temp_f, description, wind_ms, wind_mph) that returns a formatted multi-line string showing all weather info in a readable format.",
-      "status": "pending",
+      "status": "completed",
       "files": ["display.py"]
     },
     {
       "id": "task-007",
       "title": "Main CLI entry point",
       "description": "Create main.py that: 1) Reads city name from sys.argv[1], 2) Calls get_coordinates(), 3) Calls get_weather(), 4) Converts units using temperature.py and wind.py, 5) Gets description from weather_codes.py, 6) Prints formatted output using display.py. Handle errors: missing argument (print usage), city not found, network errors (requests.RequestException).",
-      "status": "pending",
+      "status": "completed",
       "files": ["main.py"]
     }
   ]

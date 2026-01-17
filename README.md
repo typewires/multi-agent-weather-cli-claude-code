@@ -15,6 +15,8 @@ Instead of one AI writing all the code, this project uses three types of agents 
 
 ## What This Does
 
+### Current Weather
+
 ```bash
 $ python3 main.py london
 London: 12.3°C / 54.1°F, Partly Cloudy, Wind: 15 km/h / 9.3 mph
@@ -24,6 +26,61 @@ Tokyo: 22.1°C / 71.8°F, Clear, Wind: 8 km/h / 5.0 mph
 
 $ python3 main.py "new york"
 New York: 8.5°C / 47.3°F, Overcast, Wind: 22.1 km/h / 13.7 mph
+```
+
+### 7-Day Forecast
+
+```bash
+$ python3 main.py london --forecast
+
+London - 7 Day Forecast
+───────────────────────────────────────
+Mon Jan 20   12°C / 54°F   Partly Cloudy     15 km/h / 9 mph
+Tue Jan 21   14°C / 57°F   Clear             12 km/h / 7 mph
+Wed Jan 22   11°C / 52°F   Rain              22 km/h / 14 mph
+Thu Jan 23    9°C / 48°F   Rain              25 km/h / 16 mph
+Fri Jan 24   10°C / 50°F   Overcast          18 km/h / 11 mph
+Sat Jan 25   13°C / 55°F   Partly Cloudy     14 km/h / 9 mph
+Sun Jan 26   15°C / 59°F   Clear              8 km/h / 5 mph
+```
+
+### Multiple Cities
+
+```bash
+$ python3 main.py london tokyo paris
+
+London:  12°C / 54°F   Partly Cloudy   15 km/h / 9 mph
+Tokyo:   22°C / 72°F   Clear            8 km/h / 5 mph
+Paris:   10°C / 50°F   Overcast        18 km/h / 11 mph
+```
+
+### Weather Alerts
+
+```bash
+$ python3 main.py miami --alerts
+
+Miami: 29°C / 84°F, Thunderstorm, Wind: 45 km/h / 28 mph
+
+WEATHER ALERTS
+───────────────────────────────────────
+[SEVERE] Thunderstorm Warning
+Issued: 2:30 PM EST
+Expires: 8:00 PM EST
+Strong thunderstorms expected with wind gusts up to 60 mph.
+Seek shelter immediately if outdoors.
+
+[WATCH] Flood Watch
+Issued: 12:00 PM EST
+Expires: 6:00 AM EST tomorrow
+Heavy rainfall may cause flash flooding in low-lying areas.
+```
+
+```bash
+$ python3 main.py london --alerts
+
+London: 12°C / 54°F, Partly Cloudy, Wind: 15 km/h / 9 mph
+
+No active weather alerts.
 ```
 
 ---
@@ -146,20 +203,26 @@ pip install requests
 
 ### Run the CLI
 
+**Current weather:**
 ```bash
 python3 main.py london
-```
-
-```bash
 python3 main.py tokyo
-```
-
-```bash
 python3 main.py "new york"
 ```
 
+**Multiple cities:**
 ```bash
-python3 main.py paris
+python3 main.py london tokyo paris
+```
+
+**7-day forecast:**
+```bash
+python3 main.py london --forecast
+```
+
+**Weather alerts:**
+```bash
+python3 main.py miami --alerts
 ```
 
 ### Example Output
@@ -217,30 +280,29 @@ Result: Verified all tests pass
 
 ---
 
+## TODO
+
+Planned features to add using the same multi-agent pattern:
+
+- [ ] `--json` flag for JSON output (for piping to other tools)
+- [ ] Unit tests with pytest
+- [ ] Cache results to reduce API calls
+- [ ] Colored terminal output
+- [ ] Config file for default preferences (units, default city)
+- [ ] Historical comparison ("Today vs average for this date")
+- [ ] Hourly forecast for next 24 hours
+
+---
+
 ## API Reference
 
 This project uses the free [Open-Meteo API](https://open-meteo.com/):
 
 - **Geocoding:** `https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1`
 - **Weather:** `https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true`
+- **7-Day Forecast:** `https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min,weathercode,windspeed_10m_max&timezone=auto`
 
 No API key required.
-
----
-
-## Follow-up Task
-
-```bash
-$ python3 main.py london --forecast
-```
-
-```
-London - 7 Day Forecast:
-Mon: 12°C / 54°F - Partly Cloudy
-Tue: 14°C / 57°F - Clear
-Wed: 11°C / 52°F - Rain
-...
-```
 
 ---
 

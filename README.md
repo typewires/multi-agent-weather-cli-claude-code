@@ -16,13 +16,13 @@ Instead of one AI writing all the code, this project uses three types of agents 
 ## What This Does
 
 ```bash
-$ python3 weather.py london
+$ python3 main.py london
 London: 12.3°C / 54.1°F, Partly Cloudy, Wind: 15 km/h / 9.3 mph
 
-$ python3 weather.py tokyo
+$ python3 main.py tokyo
 Tokyo: 22.1°C / 71.8°F, Clear, Wind: 8 km/h / 5.0 mph
 
-$ python3 weather.py "new york"
+$ python3 main.py "new york"
 New York: 8.5°C / 47.3°F, Overcast, Wind: 22.1 km/h / 13.7 mph
 ```
 
@@ -45,15 +45,19 @@ This project was built by **multiple AI agents** working together, not one AI do
                      │  (task queue)  │
                      └────────────────┘
                               │
-            ┌─────────────────┼─────────────────┐
-            ▼                 ▼                 ▼
-       ┌─────────┐       ┌─────────┐       ┌─────────┐
-       │ WORKER  │       │ WORKER  │       │ WORKER  │
-       │    1    │       │    2    │       │    3    │
-       │ api.py  │       │display.py│      │weather.py│
-       └─────────┘       └─────────┘       └─────────┘
-             (All workers use Claude Opus 4.5)
-             (Can run in PARALLEL in separate terminals)
+    ┌───────┬───────┬───────┬┴┬───────┬───────┬───────┐
+    ▼       ▼       ▼       ▼ ▼       ▼       ▼       ▼
+┌───────┐┌───────┐┌───────┐┌───────┐┌───────┐┌───────┐┌───────┐
+│WORKER ││WORKER ││WORKER ││WORKER ││WORKER ││WORKER ││WORKER │
+│   1   ││   2   ││   3   ││   4   ││   5   ││   6   ││   7   │
+└───────┘└───────┘└───────┘└───────┘└───────┘└───────┘└───────┘
+    │       │       │       │       │       │       │
+    ▼       ▼       ▼       ▼       ▼       ▼       ▼
+geocoding weather  temp    wind   codes  display  main
+   .py      .py     .py     .py     .py     .py     .py
+
+        (All workers use Claude Opus 4.5)
+        (Can run in PARALLEL in separate terminals)
                               │
                               ▼
                      ┌────────────────┐
@@ -76,8 +80,8 @@ The Planner agent analyzed the goal and created 7 independent tasks:
 |------|------|---------|
 | 1 | `geocoding.py` | Convert city names to coordinates via Open-Meteo API |
 | 2 | `weather.py` | Fetch current weather data for coordinates |
-| 3 | `temperature.py` | Celsius → Fahrenheit conversion |
-| 4 | `wind.py` | m/s → mph conversion |
+| 3 | `temperature.py` | Celsius to Fahrenheit conversion |
+| 4 | `wind.py` | km/h to mph conversion |
 | 5 | `weather_codes.py` | Map WMO codes to descriptions ("Clear", "Rain", etc.) |
 | 6 | `display.py` | Format weather data for terminal output |
 | 7 | `main.py` | CLI entry point that orchestrates all modules |
@@ -105,10 +109,14 @@ multi-agent-weather-cli/
 ├── .agents/
 │   ├── PLANNER_PROMPT.md   # Instructions for the Planner
 │   ├── WORKER_PROMPT.md    # Instructions for Workers
-│   └── tasks.json          # Shared task queue
-├── api.py                  # API client (geocoding + weather)
-├── display.py              # Output formatting
-├── weather.py              # Main CLI entry point
+│   └── tasks.json          # Shared task queue (7 tasks)
+├── geocoding.py            # Task 1: City name to coordinates
+├── weather.py              # Task 2: Fetch weather data
+├── temperature.py          # Task 3: C to F conversion
+├── wind.py                 # Task 4: km/h to mph conversion
+├── weather_codes.py        # Task 5: Code to description
+├── display.py              # Task 6: Format output
+├── main.py                 # Task 7: CLI entry point
 └── README.md
 ```
 
@@ -124,41 +132,43 @@ multi-agent-weather-cli/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/multi-agent-weather-cli.git
-cd multi-agent-weather-cli
+git clone https://github.com/typewires/multi-agent-weather-cli-claude-code.git
+cd multi-agent-weather-cli-claude-code
 ```
 
 ### Install Dependencies
 
 ```bash
-pip3 install requests
+python3 -m venv venv
+source venv/bin/activate
+pip install requests
 ```
 
 ### Run the CLI
 
 ```bash
-python3 weather.py london
+python3 main.py london
 ```
 
 ```bash
-python3 weather.py tokyo
+python3 main.py tokyo
 ```
 
 ```bash
-python3 weather.py "new york"
+python3 main.py "new york"
 ```
 
 ```bash
-python3 weather.py paris
+python3 main.py paris
 ```
 
 ### Example Output
 
 ```
-$ python3 weather.py london
+$ python3 main.py london
 London: 11.2°C / 52.2°F, Partly Cloudy, Wind: 15.3 km/h / 9.5 mph
 
-$ python3 weather.py fakecity123
+$ python3 main.py fakecity123
 Error: City 'fakecity123' not found
 ```
 
@@ -176,17 +186,17 @@ Terminal$ claude
 ```
 Result: tasks.json created with 7 tasks
 
-### Sessions 2-4: Workers
+### Sessions 2-8: Workers (can run in parallel)
 ```
 Terminal$ claude
 > [worker prompt]
 > /exit
 ```
-Result: Each worker completed one task (api.py, display.py, weather.py)
+Result: Each worker completed one task, creating one Python file
 
-Workers can run **in parallel** by opening multiple terminal windows.
+To run workers in parallel, open 7 terminal windows, start `claude` in each, paste the worker prompt in all of them, then press Enter in all terminals quickly.
 
-### Session 5: Judge
+### Session 9: Judge
 ```
 Terminal$ claude
 > [judge prompt]
@@ -215,6 +225,22 @@ This project uses the free [Open-Meteo API](https://open-meteo.com/):
 - **Weather:** `https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true`
 
 No API key required.
+
+---
+
+## Follow-up Task
+
+```bash
+$ python3 main.py london --forecast
+```
+
+```
+London - 7 Day Forecast:
+Mon: 12°C / 54°F - Partly Cloudy
+Tue: 14°C / 57°F - Clear
+Wed: 11°C / 52°F - Rain
+...
+```
 
 ---
 

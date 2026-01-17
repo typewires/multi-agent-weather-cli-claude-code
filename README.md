@@ -68,6 +68,24 @@ This project was built by **multiple AI agents** working together, not one AI do
 
 ---
 
+## Tasks Created by Planner
+
+The Planner agent analyzed the goal and created 7 independent tasks:
+
+| Task | File | Purpose |
+|------|------|---------|
+| 1 | `geocoding.py` | Convert city names to coordinates via Open-Meteo API |
+| 2 | `weather.py` | Fetch current weather data for coordinates |
+| 3 | `temperature.py` | Celsius → Fahrenheit conversion |
+| 4 | `wind.py` | m/s → mph conversion |
+| 5 | `weather_codes.py` | Map WMO codes to descriptions ("Clear", "Rain", etc.) |
+| 6 | `display.py` | Format weather data for terminal output |
+| 7 | `main.py` | CLI entry point that orchestrates all modules |
+
+Each task produces exactly one file, so workers can run in parallel without conflicts.
+
+---
+
 ## Tools Used
 
 | Tool | Description |
@@ -156,7 +174,7 @@ Terminal$ claude
 > [planner prompt]
 > /exit
 ```
-Result: tasks.json created with 3 tasks
+Result: tasks.json created with 7 tasks
 
 ### Sessions 2-4: Workers
 ```

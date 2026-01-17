@@ -47,16 +47,17 @@ This project was built by **multiple AI agents** working together, not one AI do
                      │  (task queue)  │
                      └────────────────┘
                               │
-    ┌───────┬───────┬───────┬┴┬───────┬───────┬───────┐
-    ▼       ▼       ▼       ▼ ▼       ▼       ▼       ▼
+    ┌───────┬───────┬───────┬┴───────┬───────┬───────┐
+    │       │       │       │        │       │       │
+    ▼       ▼       ▼       ▼        ▼       ▼       ▼
 ┌───────┐┌───────┐┌───────┐┌───────┐┌───────┐┌───────┐┌───────┐
 │WORKER ││WORKER ││WORKER ││WORKER ││WORKER ││WORKER ││WORKER │
 │   1   ││   2   ││   3   ││   4   ││   5   ││   6   ││   7   │
 └───────┘└───────┘└───────┘└───────┘└───────┘└───────┘└───────┘
-    │       │       │       │       │       │       │
-    ▼       ▼       ▼       ▼       ▼       ▼       ▼
-geocoding weather  temp    wind   codes  display  main
-   .py      .py     .py     .py     .py     .py     .py
+    │       │       │       │        │       │       │
+    ▼       ▼       ▼       ▼        ▼       ▼       ▼
+geocoding weather  temp    wind    codes  display  main
+   .py      .py     .py     .py      .py     .py     .py
 
         (All workers use Claude Opus 4.5)
         (Can run in PARALLEL in separate terminals)

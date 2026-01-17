@@ -5,7 +5,7 @@
       "id": "task-001",
       "title": "Geocoding module",
       "description": "Create geocoding.py with a function get_coordinates(city_name) that calls the Open-Meteo geocoding API (https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1). Returns a dict with 'latitude', 'longitude', and 'name' (full city name). Raises ValueError if city not found. Uses requests library.",
-      "status": "pending",
+      "status": "completed",
       "files": ["geocoding.py"]
     },
     {
